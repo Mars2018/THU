@@ -31,8 +31,14 @@ int S[max_number];//Station S
 bool Operation[2*max_number];//store operation historis, TRUE for push(), FALSE for pop()
 
 int main(){
-    size_t line_size, station_size;//number of trains and the maximum trains station can contain
-    scanf("%lud %lud", &line_size, &station_size);
+    //IO redirection
+#ifndef _OJ_
+    freopen("input.txt", "r", stdin);
+    freopen("output", "w", stdout);
+#endif
+
+    long line_size, station_size;//number of trains and the maximum trains station can contain
+    scanf("%ld %ld", &line_size, &station_size);
     for(int i = 0; i < line_size; ++i)
         scanf("%d", &B[i]);
     for(int i = 0; i < line_size; i++)
@@ -42,12 +48,12 @@ int main(){
     size_t op_size(0);//operation times
     bool end = false;
     while(end = !end){
-        while(pointer_S < station_size && B[pointer_B] >= A[pointer_A]){
+        while(pointer_S < station_size && pointer_A < line_size && B[pointer_B] >= A[pointer_A]){
             S[++pointer_S] = A[pointer_A++];
             Operation[op_size++] = true;    
             end = false;
         }
-        while(pointer_S > 0 && S[pointer_S] == B[pointer_B]){
+        while(pointer_S > 0 && pointer_B < line_size && S[pointer_S] == B[pointer_B]){
             --pointer_S; ++pointer_B;
             Operation[op_size++] = false;
             end = false;
@@ -56,9 +62,9 @@ int main(){
     if(pointer_B == line_size)
         for(int i = 0; i < op_size; ++i)
             if(Operation[i])
-                printf("push()\n");
+                printf("push\n");
             else
-                printf("pop()\n");
+                printf("pop\n");
     else
         printf("No\n");
 
