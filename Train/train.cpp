@@ -42,19 +42,21 @@ int main(){
         scanf("%d", &B[i]);
     for(int i = 0; i < line_size; i++)
         A[i] = i + 1;
+	A[line_size] = line_size + 1;//set a sentry
+	S[0] = line_size + 1;
     //three simulated pointers pointing to three arraies respectively
     size_t pointer_A(0), pointer_B(0), pointer_S(0);
     size_t op_size(0);//operation times
     bool end = false; //flag for the loop ending
-    while(end = !end){
+	while(end = !end){
 		//push numbers into stack until the next is larger than the given one
-        while(pointer_S < station_size && pointer_A < line_size && B[pointer_B] >= A[pointer_A]){
+        while(pointer_S < station_size && B[pointer_B] >= A[pointer_A]){
             S[++pointer_S] = A[pointer_A++];//move pointer
             Operation[op_size++] = true; //recorder the operation   
             end = false;
         }
 		//pop from stack until the next is unequal to the given one
-        while(pointer_S > 0 && pointer_B < line_size && S[pointer_S] == B[pointer_B]){
+        while(S[pointer_S] == B[pointer_B]){
             --pointer_S; ++pointer_B;//move pointer
             Operation[op_size++] = false;//record the operation
             end = false;
